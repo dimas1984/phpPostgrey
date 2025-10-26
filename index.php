@@ -80,7 +80,9 @@ $rows = pg_fetch_all($res) ?: [];
         <td><?= htmlspecialchars($r['nim']) ?></td>
         <td><?= htmlspecialchars($r['nama']) ?></td>
         <td><?= htmlspecialchars($r['email']) ?></td>
-        <td><?= htmlspecialchars($r['jurusan']) ?></td>
+        <!-- karena ada kemungkinan jurusan bernilai NULL maka ditambahkan 
+         ?? '', ENT_QUOTES, 'UTF-8' agar tdak error -->
+        <td><?= htmlspecialchars($r['jurusan']?? '', ENT_QUOTES, 'UTF-8') ?></td> 
         <td><?= htmlspecialchars($r['created_at']) ?></td>
         <td class="row-actions">
           <a class="btn" href="edit.php?id=<?= urlencode($r['id']) ?>">Ubah</a>
