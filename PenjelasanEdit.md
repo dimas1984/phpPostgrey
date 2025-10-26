@@ -7,7 +7,7 @@ Skrip `edit.php` ini lebih kompleks daripada `create.php` karena memiliki dua ta
 
 ## Alur Kerja Skrip
 
-Skrip ini secara cerdas menangani kedua skenario (GET dan POST) dalam satu file.
+Skrip menangani kedua skenario (GET dan POST) dalam satu file.
 
 ### Fase 1: Memuat Data untuk Diedit (GET Request)
 
@@ -54,3 +54,55 @@ $jurusan = $row['jurusan'];
 ?>
 
 <input name="nim" value="<?= htmlspecialchars($nim) ?>" required>
+<?php
+// ... (Kode Fase 1 dijalankan terlebih dahulu, $id sudah didapat) ...
+
+// 4. Cek jika ini adalah POST Request (form disubmit)
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    
+    // 5. Ambil Data BARU dari Form
+    // Variabel $nim, $nama, dll. yang tadi diisi dari database,
+    // SEKARANG DITIMPA (OVERWRITE) dengan data baru dari $_POST
+    $nim     = trim($_POST['nim'] ?? '');
+    $nama    = trim($_POST['nama'] ?? '');
+    $email   = trim($_POST['email'] ?? '');
+    $jurusan = trim($_POST['jurusan'] ?? '');
+
+    // 6. Validasi Data BARU
+    if ($nim === '' || $nama === '') {
+        $err = 'NIM dan Nama wajib diisi.';
+    } elseif ($email !== '' && !filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        $err = 'Format email tidak valid.';
+    } else {
+        // 7. Proses UPDATE ke Database (jika validasi lolos)
+        try {
+            qparams(
+                // Query UPDATE yang aman dengan 5 parameter
+                'UPDATE public.mahasiswa
+                   SET nim=$1, nama=$2, email=NULLIF($3, \'\'), jurusan=NULLIF($4, \'\')
+                 WHERE id=$5', // $id (dari Fase 1) digunakan di sini
+                [$nim, $nama, $email, $jurusan, $id]
+            );
+            
+            // 8. Redirect jika sukses
+            header('Location: index.php');
+            exit;
+        } catch (Throwable $e) {
+            // 9. Tangkap Error (misal: NIM duplikat)
+            $err = $e->getMessage();
+        }
+    }
+    // Jika validasi GAGAL (langkah 6), $err akan terisi.
+    // Skrip akan lanjut ke bagian HTML dan menampilkan $err
+    // serta mengisi <input> dengan data BARU yang gagal tadi (sticky form).
+}
+?>
+
+<!doctype html>
+<?php if ($err): ?>
+    <div class="alert error"><?= htmlspecialchars($err) ?></div>
+  <?php endif; ?>
+
+  <form method="post">
+    <input name="nim" value="<?= htmlspecialchars($nim) ?>" required>
+    </form>
