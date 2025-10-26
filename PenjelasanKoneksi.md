@@ -30,6 +30,8 @@ function get_pg_connection(): PgSql\Connection {
     
     // @pg_connect: Mencoba terhubung ke DB. 
     // Tanda '@' menekan pesan error default PHP.
+    //tanda @ disebut error control operator.
+    //Ia digunakan untuk menyembunyikan (menekan) pesan error bawaan PHP yang biasanya akan tampil di layar.
     $conn = @pg_connect($connStr);
 
     // Jika koneksi gagal, hentikan skrip dengan melempar error (Exception)
