@@ -98,7 +98,7 @@ Di bawah ini adalah pemaparan per baris untuk skrip PHP yang melakukan **uji kon
 
 ## Contoh Implementasi `get_pg_connection()` (Ilustratif)
 
-> Hanya contoh—sesuaikan dengan proyekmu.
+> contoh yg lain.
 
 ```php
 // koneksi.php
