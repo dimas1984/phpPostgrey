@@ -48,8 +48,6 @@ Langkah-langkah umum yang dilakukan:
 - `session.use_cookies` — adalah konfigurasi bawaan PHP yang menentukan apakah session ID dikirim dan disimpan lewat cookie atau tidak.
 - `session_get_cookie_params()` — digunakan untuk mengambil semua pengaturan (parameter) yang dipakai PHP saat membuat cookie sesi (session cookie).
 ---
----
-
 ## 📦 Penjelasan Setiap Parameter
 
 | Parameter | Arti | Contoh Nilai | Penjelasan Lengkap |
