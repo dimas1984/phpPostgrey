@@ -47,11 +47,17 @@ Langkah-langkah umum yang dilakukan:
 - `ini_get();` — membaca nilai konfigurasi PHP (dari php.ini).
 - `session.use_cookies` — adalah konfigurasi bawaan PHP yang menentukan apakah session ID dikirim dan disimpan lewat cookie atau tidak.
 - `session_get_cookie_params()` — digunakan untuk mengambil semua pengaturan (parameter) yang dipakai PHP saat membuat cookie sesi (session cookie).
+---
+---
 
--| **`$params["path"]`** | Jalur (path) URL tempat cookie berlaku | `'/'` atau `'/admin'` | Menentukan area situs yang memiliki akses ke cookie. Jika diset `'/'`, cookie berlaku untuk seluruh situs. Jika diset `'/admin'`, cookie hanya berlaku di URL yang diawali `/admin`. Saat logout, path harus sama agar cookie bisa terhapus dengan benar. |
--| **`$params["domain"]`** | Domain tempat cookie berlaku | `'example.com'` | Menentukan domain mana yang boleh menerima cookie ini. Misalnya `app.example.com` berbeda dari `example.com`. Jika domain tidak sama, browser tidak akan menghapus cookie lama. |
--| **`$params["secure"]`** | Hanya kirim cookie melalui koneksi HTTPS | `true` atau `false` | Jika `true`, cookie **hanya akan dikirim lewat HTTPS**, bukan HTTP biasa. Ini mencegah kebocoran cookie di jaringan tidak aman. |
--| **`$params["httponly"]`** | Cegah cookie diakses lewat JavaScript | `true` atau `false` | Jika `true`, cookie **tidak bisa diakses lewat JavaScript** (`document.cookie`), sehingga lebih aman dari serangan **XSS (Cross-Site Scripting)**. |
+## 📦 Penjelasan Setiap Parameter
+
+| Parameter | Arti | Contoh Nilai | Penjelasan Lengkap |
+|------------|------|---------------|-------------------|
+| **`$params["path"]`** | Jalur (path) URL tempat cookie berlaku | `'/'` atau `'/admin'` | Menentukan area situs yang memiliki akses ke cookie. Jika diset `'/'`, cookie berlaku untuk seluruh situs. Jika diset `'/admin'`, cookie hanya berlaku di URL yang diawali `/admin`. Saat logout, path harus sama agar cookie bisa terhapus dengan benar. |
+| **`$params["domain"]`** | Domain tempat cookie berlaku | `'example.com'` | Menentukan domain mana yang boleh menerima cookie ini. Misalnya `app.example.com` berbeda dari `example.com`. Jika domain tidak sama, browser tidak akan menghapus cookie lama. |
+| **`$params["secure"]`** | Hanya kirim cookie melalui koneksi HTTPS | `true` atau `false` | Jika `true`, cookie **hanya akan dikirim lewat HTTPS**, bukan HTTP biasa. Ini mencegah kebocoran cookie di jaringan tidak aman. |
+| **`$params["httponly"]`** | Cegah cookie diakses lewat JavaScript | `true` atau `false` | Jika `true`, cookie **tidak bisa diakses lewat JavaScript** (`document.cookie`), sehingga lebih aman dari serangan **XSS (Cross-Site Scripting)**. |
 
 ---
 
