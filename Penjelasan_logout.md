@@ -31,7 +31,7 @@ Langkah-langkah umum yang dilakukan:
 1. **Memulai sesi** (`session_start()`) untuk mengakses sesi aktif.
 2. **Menghapus data sesi** (`$_SESSION` dikosongkan).
 3. **Menghancurkan sesi** dengan `session_destroy()`.
-4. **Menghapus cookie sesi** (jika ada).
+4. **Menghapus cookie sesi**.
 5. **Mengalihkan pengguna** kembali ke halaman `login.php` setelah logout berhasil.
 
 ---
@@ -44,7 +44,9 @@ Langkah-langkah umum yang dilakukan:
 - `setcookie(session_name(), '', time() - 3600, '/');` — Menghapus cookie sesi dari browser (jika digunakan).
 - `header('Location: login.php');` — Mengarahkan pengguna ke halaman login setelah logout.
 - `exit;` — Menghentikan eksekusi script setelah melakukan redirect (praktik terbaik).
-
+- `ini_get();` — membaca nilai konfigurasi PHP (dari php.ini).
+- `session.use_cookies` — adalah konfigurasi bawaan PHP yang menentukan apakah session ID dikirim dan disimpan lewat cookie atau tidak.
+- `session_get_cookie_params()` — digunakan untuk mengambil semua pengaturan (parameter) yang dipakai PHP saat membuat cookie sesi (session cookie).
 ---
 
 ## Ilustrasi Alur Logout
