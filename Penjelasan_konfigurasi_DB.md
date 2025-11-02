@@ -6,7 +6,7 @@
 
 1. Pada tab general tambahkan name semisal webdesain
 
-   ![](/PostGreSQL/Gambar/Aspose.Words.7c8a688c-f5a1-467b-a29a-d4098e2df167.002.png)
+   ![](Gambar/Aspose.Words.7c8a688c-f5a1-467b-a29a-d4098e2df167.002.png)
 
 
 
