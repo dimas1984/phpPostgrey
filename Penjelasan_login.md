@@ -46,7 +46,7 @@ if (isset($_SESSION['user_id'])) {
   </style>
 </head>
 ```
-- Struktur **HTML5** standar dengan `lang="id"` (bagus untuk i18n/SEO).
+- Struktur **HTML5** standar dengan `lang="id"` 
 - `meta viewport` membantu **responsivitas** di perangkat mobile.
 - Blok `<style>` memberikan **gaya** sederhana. Terdapat elipsis `...` di file—kemungkinan placeholder ringkasan style.
 
