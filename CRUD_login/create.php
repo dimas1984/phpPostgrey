@@ -1,30 +1,8 @@
 <?php
 require __DIR__ . '/koneksi.php';
 
-$err = '';
-$id = (int)($_GET['id'] ?? 0);
-
-if ($id <= 0) {
-    http_response_code(400);
-    exit('ID tidak valid.');
-}
-
-// Ambil data lama
-try {
-    $res = qparams('SELECT id, nim, nama, email, jurusan FROM public.mahasiswa WHERE id=$1', [$id]);
-    $row = pg_fetch_assoc($res);
-    if (!$row) {
-        http_response_code(404);
-        exit('Data tidak ditemukan.');
-    }
-} catch (Throwable $e) {
-    exit('Error: ' . htmlspecialchars($e->getMessage()));
-}
-
-$nim = $row['nim'];
-$nama = $row['nama'];
-$email = $row['email'];
-$jurusan = $row['jurusan'];
+$err = $ok = '';
+$nim = $nama = $email = $jurusan = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $nim     = trim($_POST['nim'] ?? '');
@@ -39,10 +17,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     } else {
         try {
             qparams(
-                'UPDATE public.mahasiswa
-                   SET nim=$1, nama=$2, email=NULLIF($3, \'\'), jurusan=NULLIF($4, \'\')
-                 WHERE id=$5',
-                [$nim, $nama, $email, $jurusan, $id]
+                'INSERT INTO public.mahasiswa (nim, nama, email, jurusan) VALUES ($1, $2, NULLIF($3, \'\'), NULLIF($4, \'\'))',
+                [$nim, $nama, $email, $jurusan]
             );
             header('Location: index.php');
             exit;
@@ -56,18 +32,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <html lang="id">
 <head>
   <meta charset="utf-8">
-  <title>Ubah Mahasiswa</title>
+  <title>Tambah Mahasiswa</title>
   <style>
     body{font-family:system-ui,Segoe UI,Roboto,Arial,sans-serif;max-width:720px;margin:24px auto;padding:0 12px}
     label{display:block;margin-top:10px}
-    input{width:100%;padding:8px;margin-top:4px}
+    input,select{width:100%;padding:8px;margin-top:4px}
     .btn{padding:8px 12px;border:1px solid #999;border-radius:6px;background:#f6f6f6;text-decoration:none}
     .alert{padding:10px;border-radius:6px;margin:10px 0}
     .alert.error{background:#ffe9e9;border:1px solid #e99}
   </style>
 </head>
 <body>
-  <h1>Ubah Mahasiswa</h1>
+  <h1>Tambah Mahasiswa</h1>
 
   <?php if ($err): ?>
     <div class="alert error"><?= htmlspecialchars($err) ?></div>
@@ -75,21 +51,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
   <form method="post">
     <label>NIM
-      <input name="nim" value="<?= htmlspecialchars($nim ??'') ?>" required>
+      <input name="nim" value="<?= htmlspecialchars($nim) ?>" required>
     </label>
     <label>Nama
-      <input name="nama" value="<?= htmlspecialchars($nama ?? '') ?>" required>
+      <input name="nama" value="<?= htmlspecialchars($nama) ?>" required>
     </label>
     <label>Email (opsional)
-      <input name="email" value="<?= htmlspecialchars($email ?? '') ?>">
+      <input name="email" value="<?= htmlspecialchars($email) ?>" placeholder="nama@kampus.ac.id">
     </label>
     <label>Jurusan (opsional)
-      <input name="jurusan" value="<?= htmlspecialchars($jurusan ?? '') ?>">
+      <input name="jurusan" value="<?= htmlspecialchars($jurusan) ?>">
     </label>
 
     <p style="margin-top:16px">
-      <button class="btn" type="submit">Simpan Perubahan</button>
-      <a class="btn" href="index.php">Batal</a>
+      <button class="btn" type="submit">Simpan</button>
+      <a class="btn" href="index.php">Kembali</a>
     </p>
   </form>
 </body>

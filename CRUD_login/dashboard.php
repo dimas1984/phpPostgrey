@@ -1,4 +1,5 @@
 <?php
+session_start();
 require __DIR__ . '/koneksi.php';
 
 // Ambil semua data
@@ -7,15 +8,18 @@ $res = q('SELECT id, nim, nama, email, jurusan, to_char(created_at, \'YYYY-MM-DD
           ORDER BY id DESC');
 
 $rows = pg_fetch_all($res) ?: [];
-?>
+if (!isset($_SESSION['user_id'])) {
+    header('Location: login.php');
+    exit;
+}
 
+// misal ambil detail user jika perlu lagi dari DB
+?>
 <!doctype html>
 <html lang="id">
-
 <head>
-  <meta charset="utf-8">
-  <title>CRUD Mahasiswa (PHP + PostgreSQL)</title>
-  <style>
+  <meta charset="utf-8"><title>Dashboard</title>
+   <style>
     body {
       font-family: system-ui, Segoe UI, Roboto, Arial, sans-serif;
       max-width: 980px;
@@ -51,8 +55,9 @@ $rows = pg_fetch_all($res) ?: [];
     }
   </style>
 </head>
-
 <body>
+  <h1>Selamat datang, <?= htmlspecialchars($_SESSION['full_name'] ?? $_SESSION['username']) ?></h1>
+  <p>Ini adalah halaman yang hanya bisa diakses setelah login.</p>
   <h1>Data Mahasiswa</h1>
 
   <p><a class="btn" href="create.php">+ Tambah Mahasiswa</a></p>
@@ -103,6 +108,6 @@ $rows = pg_fetch_all($res) ?: [];
       <?php endforeach; endif; ?>
     </tbody>
   </table>
+  <p><a href="logout.php">Logout</a></p>
 </body>
-
 </html>
